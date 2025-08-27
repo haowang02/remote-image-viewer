@@ -3,6 +3,7 @@ from PIL import Image
 import mimetypes
 from typing import List, Any
 from flask import Flask, render_template, abort, send_file, request, jsonify
+from urllib.parse import quote, unquote
 
 app = Flask(__name__)
 
@@ -23,7 +24,7 @@ def get_image(image_path: str):
 
 @app.route("/info/<path:image_path>")
 def get_image_info(image_path: str):
-    image_path = os.path.join("/", image_path)
+    image_path = unquote(os.path.join("/", image_path))
     if not os.path.isfile(image_path):
         return jsonify({"code": 1, "msg": "file not exist"})
     img = Image.open(image_path)
@@ -79,7 +80,7 @@ def list_images():
         return jsonify({"code": 2, "msg": "invalid path"})
     images = os.listdir(path)
     images.sort()
-    images = list(map(lambda image: os.path.join(path, image), images))
+    images = list(map(lambda image: quote(os.path.join(path, image), safe='/', encoding='utf-8'), images))
     page = pagination(images, page_num, page_size)
     return jsonify({"code": 0, "msg": "success", "page": page})
 
