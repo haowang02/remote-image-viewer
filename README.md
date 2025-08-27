@@ -15,7 +15,7 @@
 ## 运行
 ### 克隆仓库
 ```bash
-git clone https://github.com/WangHaoCS/remote-image-viewer.git
+git clone https://github.com/haowang02/remote-image-viewer
 cd remote-image-viewer
 ```
 ### （可选）创建虚拟环境
